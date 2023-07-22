@@ -18,7 +18,24 @@ contract MyContract {
 
     uint256 public numberOfCampigns = 0; 
 
-    function createCampaign() {}
+    function createCampaign(address _owner, string memory _title, string memory _description , uint256 _target, uint256 _deadline, string memory _image) public returns (uint256) {
+        Campaign storage campaign = campaigns[numberOfCampaigns];
+
+        // is everything ok? 테스트:
+        require(campaign.deadline < block.timestamp, "Deadline should be in the future");
+
+        campaign.owner = _owner;
+        campaign.title = _title;
+        campaign.description = _description;
+        campaign.target = _target;
+        campaign.deadline = _deadline;
+        campaign.amountCollected = 0;
+        campaign.image = _image;
+
+        numberOfCampigns++;
+        
+        return numberOfCampigns - 1;
+    }
 
     function donateToCampaign() {}
 
